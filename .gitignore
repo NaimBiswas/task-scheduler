@@ -1,0 +1,4 @@
+backend/tmp/
+backend/.env
+node_modules/
+.turbo/

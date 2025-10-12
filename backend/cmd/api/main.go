@@ -1,6 +1,7 @@
 package main
 
 import (
+	"NaimBiswas/task-scheduler/internal/config"
 	"database/sql"
 	"log"
 	"net/http"
@@ -19,9 +20,12 @@ type Schedule struct {
 }
 
 func main() {
-	db, err := sql.Open("pgx", "postgres://user:pass@localhost:5432/qms?sslmode=disable")
+	cfg := config.Load()
+	db, err := sql.Open("pgx", cfg.DatabaseURL)
 	if err != nil {
 		log.Fatal(err)
+	}else {
+		log.Println("Connected to the database successfully.")
 	}
 	defer db.Close()
 
@@ -87,5 +91,8 @@ func main() {
 		})
 	})
 
-	r.Run(":3000")
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"message": "Welcome to the Task Scheduling API"})
+	})
+	r.Run(":8080")
 }
