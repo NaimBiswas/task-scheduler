@@ -43,7 +43,7 @@ func (h *Handler) Dashboard(c *gin.Context) {
 	var totalEvents int64
 	err := h.DB.QueryRow("SELECT SUM(total_events) FROM schedules").Scan(&totalEvents)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch total events"})
+		c.JSON(http.StatusOK, gin.H{"error": "Failed to fetch total events", "details": err.Error(), "totalEvents": 0, "in_progress": 0, "completed": 0, "overdue": 0})
 		return
 	}
 
@@ -266,8 +266,8 @@ func (h *Handler) TaskList(c *gin.Context) {
 
 	// Fetch event overrides
 	rows, err := h.DB.QueryContext(c.Request.Context(),
-		"SELECT id, schedule_id, event_datetime, status FROM event_overrides WHERE schedule_id = $1 AND event_datetime BETWEEN $2 AND $3",
-		scheduleID, startOfMonthDate, endOfMonthDate)
+		"SELECT id, schedule_id, event_datetime, status FROM event_overrides WHERE schedule_id = $1",
+		scheduleID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch event overrides", "details": err.Error()})
 		return
@@ -278,6 +278,7 @@ func (h *Handler) TaskList(c *gin.Context) {
 	for rows.Next() {
 		var override db.EventOverride
 		if err := rows.Scan(&override.ID, &override.ScheduleID, &override.EventDatetime, &override.Status); err != nil {
+			fmt.Println("Error scanning override:", err)
 			continue
 		}
 		overrides[override.EventDatetime] = override
