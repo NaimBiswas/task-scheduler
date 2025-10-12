@@ -1,0 +1,13 @@
+{
+    "name": "backend",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+      "dev": "go run cmd/api/main.go",
+      "build": "go build -o dist/api cmd/api/main.go",
+      "start": "dist/api",
+      "test": "go test ./...",
+      "lint": "golangci-lint run",
+      "format": "go fmt ./..."
+    }
+  }
