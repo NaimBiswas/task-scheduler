@@ -17,15 +17,18 @@
     "build:backend": "turbo run build --filter=backend"
   },
   "devDependencies": {
-    "turbo": "^1.10.7",
-    "eslint": "^8.57.0",
-    "eslint-config-next": "^14.2.3",
-    "prettier": "^3.2.5",
-    "typescript": "^5.4.5"
+    "eslint": "8.57.0",
+    "eslint-config-next": "14.2.3",
+    "prettier": "3.2.5",
+    "turbo": "1.10.7",
+    "typescript": "5.4.5"
   },
   "workspaces": [
     "frontend",
     "shared"
   ],
-  "packageManager": "npm@10.9.3"
+  "packageManager": "npm@10.9.3",
+  "dependencies": {
+    "moment": "2.30.1"
+  }
 }
