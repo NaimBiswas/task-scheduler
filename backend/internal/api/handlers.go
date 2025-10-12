@@ -24,6 +24,7 @@ type Schedule struct {
 	TotalEvents int64  `json:"total_events"`
 	StartDate time.Time  `json:"start_date"`
 	EndDate time.Time  `json:"end_date"`
+	Frequency any `json:"frequency"`
 }
 
 type EventOverride struct {
@@ -152,8 +153,8 @@ func (h *Handler) CreateSchedule(c *gin.Context) {
 	fmt.Println("DTSTART:", rruleStr, "totalEvents:", totalEvents)
 
 	_, err = h.DB.Exec(
-		"INSERT INTO schedules (task_name, rrule, total_events, start_date, end_date) VALUES ($1, $2, $3, $4, $5)",
-		req.TaskName, rruleStr, totalEvents, req.StartDate, req.EndDate,
+		"INSERT INTO schedules (task_name, rrule, total_events, start_date, end_date, frequency) VALUES ($1, $2, $3, $4, $5, $6)",
+		req.TaskName, rruleStr, totalEvents, req.StartDate, req.EndDate, req.Frequency,
 	)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create schedule", "details": err.Error()})
@@ -168,9 +169,9 @@ func (h *Handler) CreateSchedule(c *gin.Context) {
 
 
 func (h *Handler) GetSchedules(c *gin.Context) {
-	rows, err := h.DB.Query("SELECT id, task_name, total_events, start_date, end_date FROM schedules")
+	rows, err := h.DB.Query("SELECT id, task_name, total_events, start_date, end_date, frequency FROM schedules")
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch tasks"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch tasks", "details": err.Error()})
 		return
 	}
 	defer rows.Close()
@@ -178,8 +179,9 @@ func (h *Handler) GetSchedules(c *gin.Context) {
 	var schedules []Schedule
 	for rows.Next() {
 		var s Schedule
-		if err := rows.Scan(&s.ID, &s.TaskName, &s.TotalEvents, &s.StartDate, &s.EndDate); err != nil {
-			continue
+		if err := rows.Scan(&s.ID, &s.TaskName, &s.TotalEvents, &s.StartDate, &s.EndDate, &s.Frequency); err != nil {
+			fmt.Println("Error scanning schedule:", err)
+			break
 		}
 		schedules = append(schedules, s)
 	}

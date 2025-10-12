@@ -23,6 +23,7 @@ CREATE TABLE schedules (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     start_date DATE NOT NULL,
     end_date DATE NOT NULl
+    frequency: VARCHAR(20) CHECK (frequency IN ('DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY')) NOT NULL
 );
 
 CREATE TABLE event_overrides (
