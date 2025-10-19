@@ -50,7 +50,7 @@ func (h *Handler) Dashboard(c *gin.Context) {
 	var in_progress int64
 	err = h.DB.QueryRow("SELECT COUNT(*) FROM event_overrides WHERE status = 'in-progress'").Scan(&in_progress)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch completed count"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch completed count", "details": err.Error()})
 		return
 	}
 	var completed int64
