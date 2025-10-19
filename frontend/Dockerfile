@@ -15,7 +15,7 @@ RUN npm install --omit=optional && npm cache clean --force
 COPY . .
 
 # Build the application
-RUN npm run build:frontend
+RUN npm run build
 
 # Production stage
 FROM node:22-alpine AS runner
