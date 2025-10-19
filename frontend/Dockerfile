@@ -1,6 +1,7 @@
 # Build stage
 FROM node:22-alpine AS builder
 
+RUN apk add --no-cache git build-base go
 # Set working directory
 WORKDIR /app
 
