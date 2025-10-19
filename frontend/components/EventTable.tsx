@@ -5,9 +5,10 @@ import { FC, useState, useOptimistic, startTransition, useCallback } from 'react
 import { fetchEvents, updateEventStatus } from '@/lib/api';
 import Pagination from '@/components/Pagination';
 
-import { EventOverride } from '../../shared/types/types';
+
 import { useToaster } from './Toaster';
 import moment from 'moment';
+import { EventOverride } from '@/shared/types/types';
 
 interface EventTableProps {
   events: EventOverride[];

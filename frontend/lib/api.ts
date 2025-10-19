@@ -1,4 +1,4 @@
-import { EventOverride } from "../../shared/types/types";
+import { EventOverride } from "@/shared/types/types";
 
 export interface DashboardMetrics {
     completed: number;

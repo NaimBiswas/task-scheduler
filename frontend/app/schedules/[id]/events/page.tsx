@@ -2,8 +2,9 @@ import { FC, startTransition, Suspense } from "react";
 import Link from "next/link";
 import { fetchEvents } from "@/lib/api";
 import EventTable from "@/components/EventTable";
-import { EventOverride } from '../../../../../shared/types/types';
+
 import { ToasterProvider } from "@/components/Toaster";
+import { EventOverride } from "@/shared/types/types";
 
 
 interface EventsPageProps {
