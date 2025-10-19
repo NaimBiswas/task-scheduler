@@ -8,7 +8,7 @@ WORKDIR /app
 COPY ./package*.json ./
 
 # Install dependencies
-RUN npm ci --only=production=false --no-optional && npm cache clean --force
+RUN npm install --omit=optional && npm cache clean --force
 
 # Copy source code from frontend directory
 COPY . .
