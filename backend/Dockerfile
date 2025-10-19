@@ -10,10 +10,10 @@ COPY backend/go.sum .
 
 RUN go mod download
 
-COPY backend/ .
+COPY / .
 
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo \
-    -idflags="-w -s -X main.version=$(git describe --tags --always)" \
+    -idflags="-w -s" \
     -o /task-scheduler ./cmd/server/main.go
 
 
