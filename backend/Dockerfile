@@ -5,8 +5,8 @@ WORKDIR /app
 RUN apk add --no-cache git build-base
 
 
-COPY backend/go.mod .
-COPY backend/go.sum .
+COPY go.mod .
+COPY go.sum .
 
 RUN go mod download
 
