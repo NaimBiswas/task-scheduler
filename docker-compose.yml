@@ -45,7 +45,7 @@ services:
   backend:
     build:
       context: .
-      dockerfile: ./backend/Dockerfile
+      dockerfile: Dockerfile.backend
     restart: unless-stopped
     ports:
       - "8080:8080"
@@ -72,7 +72,7 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: ./frontend/Dockerfile
+      dockerfile: Dockerfile.frontend
     restart: unless-stopped
     ports:
       - "3001:3001"

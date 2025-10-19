@@ -9,3 +9,13 @@ node_modules
 *.log
 Dockerfile
 .dockerignore
+
+.next
+/dist
+/build
+/coverage
+.env*
+*.log
+.nyc_output
+Dockerfile
+.dockerignore
