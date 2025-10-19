@@ -1,0 +1,11 @@
+.git
+.gitignore
+README.md
+/air.toml
+/testdata
+/coverage
+node_modules
+.env*
+*.log
+Dockerfile
+.dockerignore
