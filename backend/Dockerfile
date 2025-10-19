@@ -5,12 +5,12 @@ WORKDIR /app
 RUN apk add --no-cache git build-base
 
 
-COPY ./../../backend/go.mod ./
-COPY ./../../backend/go.sum ./
+COPY backend/go.mod .
+COPY backend/go.sum .
 
 RUN go mod download
 
-COPY ../../backend/ .
+COPY backend/ .
 
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo \
     -idflags="-w -s -X main.version=$(git describe --tags --always)" \
