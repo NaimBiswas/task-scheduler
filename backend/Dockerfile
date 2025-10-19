@@ -10,11 +10,11 @@ COPY go.sum .
 
 RUN go mod download
 
-COPY / .
+COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo \
-    -idflags="-w -s" \
-    -o /task-scheduler ./cmd/server/main.go
+    -ldflags="-w -s" \
+    -o /task-scheduler ./cmd/api/main.go
 
 
 FROM alpine:latest
