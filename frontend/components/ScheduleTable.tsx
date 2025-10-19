@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import Link from 'next/link';
-import { Schedule } from '../../shared/types/types';
+
 import moment from 'moment';
+import { Schedule } from '@/shared/types/types';
 
 
 interface ScheduleTableProps {
