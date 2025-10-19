@@ -6,7 +6,7 @@
       },
       "build": {
         "dependsOn": [],
-        "outputs": ["frontend/.next/**", "backend/dist/**"]
+        "outputs": ["frontend/.next/**"]
       },
       "start": {
         "dependsOn": ["build"],
