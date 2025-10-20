@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        REGISTRY = "https://hub.docker.com/repositories/naimbiswas"
+        REGISTRY = "naimbiswas"
         TAG = "${env.GIT_COMMIT}"
     }
     stages {
@@ -22,8 +22,8 @@ pipeline {
         }
         stage('Deploy to Kubernetes') {
             steps {
-                sh "kubectl set image deployment/backend backend=$REGISTRY/task-scheduler-backend:$TAG"
-                sh "kubectl set image deployment/frontend frontend=$REGISTRY/task-scheduler-frontend:$TAG"
+                sh "kubectl set image deployments/task-scheduler-backend backend=$REGISTRY/task-scheduler-backend:$TAG"
+                sh "kubectl set image deployments/task-scheduler-frontend frontend=$REGISTRY/task-scheduler-frontend:$TAG"
             }
         }
     }
