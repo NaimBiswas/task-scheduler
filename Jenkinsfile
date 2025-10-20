@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+    environment {
+        REGISTRY = "naimbiswas"
+        TAG = "${env.GIT_COMMIT}"
+    }
+    stages {
+        stage('Checkout') {
+            steps { checkout scm }
+        }
+        stage('Build Docker Images') {
+            steps {
+                sh "docker build -t $REGISTRY/task-scheduler-backend:$TAG -f Dockerfile.backend ."
+                sh "docker build -t $REGISTRY/task-scheduler-frontend:$TAG -f Dockerfile.frontend ."
+            }
+        }
+        stage('Push Docker Images') {
+            steps {
+                sh "docker push $REGISTRY/task-scheduler-backend:$TAG"
+                sh "docker push $REGISTRY/task-scheduler-frontend:$TAG"
+            }
+        }
+        stage('Deploy to Kubernetes') {
+            steps {
+                sh "kubectl set image deployment/task-scheduler-backend backend=$REGISTRY/task-scheduler-backend:$TAG"
+                sh "kubectl set image deployment/task-scheduler-frontend frontend=$REGISTRY/task-scheduler-frontend:$TAG"
+            }
+        }
+    }
+    post {
+        success { echo 'Deployment done Successfully!' }
+        failure { echo 'Deployment Failed!' }
+    }
+}
