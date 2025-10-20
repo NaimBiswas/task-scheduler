@@ -22,8 +22,8 @@ pipeline {
         }
         stage('Deploy to Kubernetes') {
             steps {
-                sh "kubectl set image deployments/task-scheduler-backend backend=$REGISTRY/task-scheduler-backend:$TAG"
-                sh "kubectl set image deployments/task-scheduler-frontend frontend=$REGISTRY/task-scheduler-frontend:$TAG"
+                sh "kubectl set image deployment/task-scheduler-backend backend=$REGISTRY/task-scheduler-backend:$TAG"
+                sh "kubectl set image deployment/task-scheduler-frontend frontend=$REGISTRY/task-scheduler-frontend:$TAG"
             }
         }
     }
