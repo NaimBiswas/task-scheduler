@@ -30,10 +30,10 @@ pipeline {
         }
         stage('Deploy to Kubernetes') {
             steps {
-               withCredentials([usernamePassword(credentialsId: 'Jenkins-docker-cred', usernameVariable: 'naimbiswas', passwordVariable: 'DOCKER_PASS')]) {
+            //    withCredentials([usernamePassword(credentialsId: 'Jenkins-docker-cred', usernameVariable: 'naimbiswas', passwordVariable: 'DOCKER_PASS')]) {
                     // sh "kubectl set image deployment/task-scheduler-backend backend=$REGISTRY/task-scheduler-backend:$TAG"
                     sh "kubectl set image deployment/task-scheduler-frontend frontend=$REGISTRY/task-scheduler-frontend:$TAG"
-               }
+            //    }
             }
         }
     }
