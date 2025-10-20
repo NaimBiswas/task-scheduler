@@ -3,14 +3,22 @@ pipeline {
     environment {
         REGISTRY = "naimbiswas"
         TAG = "${env.GIT_COMMIT}"
+        DOCKER_CREDENTIALS = credentials('Jenkins-docker-cred')
     }
     stages {
         stage('Checkout') {
             steps { checkout scm }
         }
+        stage('Login to Docker') {
+            steps {
+                sh """
+                echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin
+                """
+            }
+        }
         stage('Build Docker Images') {
             steps {
-                sh "docker build -t $REGISTRY/task-scheduler-backend:$TAG -f Dockerfile.backend ."
+                // sh "docker build -t $REGISTRY/task-scheduler-backend:$TAG -f Dockerfile.backend ."
                 sh "docker build -t $REGISTRY/task-scheduler-frontend:$TAG -f Dockerfile.frontend ."
             }
         }
@@ -22,8 +30,10 @@ pipeline {
         }
         stage('Deploy to Kubernetes') {
             steps {
-                sh "kubectl set image deployment/task-scheduler-backend backend=$REGISTRY/task-scheduler-backend:$TAG"
-                sh "kubectl set image deployment/task-scheduler-frontend frontend=$REGISTRY/task-scheduler-frontend:$TAG"
+               withCredentials([usernamePassword(credentialsId: 'Jenkins-docker-cred', usernameVariable: 'naimbiswas', passwordVariable: 'DOCKER_PASS')]) {
+                    // sh "kubectl set image deployment/task-scheduler-backend backend=$REGISTRY/task-scheduler-backend:$TAG"
+                    sh "kubectl set image deployment/task-scheduler-frontend frontend=$REGISTRY/task-scheduler-frontend:$TAG"
+               }
             }
         }
     }
