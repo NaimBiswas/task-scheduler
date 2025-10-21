@@ -3,7 +3,6 @@ pipeline {
     environment {
         REGISTRY = "naimbiswas"
         TAG = "${env.GIT_COMMIT}"
-        DOCKER_CREDENTIALS = credentials('Jenkins-docker-cred')
     }
     stages {
         stage('Checkout') {
